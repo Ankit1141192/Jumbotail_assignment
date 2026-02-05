@@ -2,7 +2,7 @@ const ProductCard = ({ product }) => {
   return (
     <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden">
       
-      {/* Product Content */}
+  
       <div className="p-4">
         <h3 className="font-semibold text-lg text-gray-900 line-clamp-1">
           {product.title}
@@ -11,8 +11,6 @@ const ProductCard = ({ product }) => {
         <p className="text-sm text-gray-600 mt-1 line-clamp-2">
           {product.description}
         </p>
-
-        {/* Price */}
         <div className="mt-4 flex items-center gap-2">
           <span className="text-lg font-bold text-green-600">
             ₹{product.sellingPrice}
@@ -22,7 +20,6 @@ const ProductCard = ({ product }) => {
           </span>
         </div>
 
-        {/* Footer */}
         <div className="mt-4 flex justify-between items-center">
           <span
             className={`text-xs font-medium px-3 py-1 rounded-full ${
