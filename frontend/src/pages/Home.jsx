@@ -7,45 +7,65 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSearch = async (query) => {
+    if (!query.trim()) return;
+
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/v1/search/product?query=${query}`
+        `https://jumbotail-assignment.onrender.com/api/v1/search/product?query=${query}`
       );
       const data = await res.json();
-      setProducts(data.data || []);
+      setProducts(data?.data || []);
     } catch (err) {
-      console.error("Search error", err);
+      console.error("Search error:", err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">
-        🔍 CatalogIQ Search
-      </h1>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        
+        {/* Header */}
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-bold text-gray-900">
+            CatalogIQ
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Smart product search for electronics
+          </p>
+        </div>
 
-      <SearchBar onSearch={handleSearch} />
+        {/* Search */}
+        <SearchBar onSearch={handleSearch} />
 
-      {loading && (
-        <p className="text-center mt-6 text-gray-500">
-          Searching products...
-        </p>
-      )}
+        {/* Loading */}
+        {loading && (
+          <div className="text-center mt-10 text-gray-500">
+            Searching products...
+          </div>
+        )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
-        {products.map((product) => (
-          <ProductCard key={product.productId} product={product} />
-        ))}
+        {/* Product Grid */}
+        {!loading && products.length > 0 && (
+          <div className="grid gap-6 mt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {products.map((product) => (
+              <ProductCard
+                key={product.productId}
+                product={product}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && products.length === 0 && (
+          <div className="text-center mt-16 text-gray-400">
+            No products found. Try searching something else.
+          </div>
+        )}
       </div>
-
-      {!loading && products.length === 0 && (
-        <p className="text-center mt-10 text-gray-400">
-          No products found. Try another query.
-        </p>
-      )}
     </div>
   );
 };
